@@ -1,0 +1,15 @@
+{
+  "name": "yaml-loyaly-program-dsl",
+  "version": "1.0.0",
+  "description": "This is a yaml based dsl for a fictional loyalty program",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "yaml": "^2.4.1"
+  }
+}

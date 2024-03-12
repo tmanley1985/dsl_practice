@@ -1,0 +1,15 @@
+loyalty_rules:
+  - rule_name: "Dynamic Tier Upgrade for Spending"
+    description: "Upgrade membership tier based on annual spending."
+    conditions:
+      - attribute: "annual_spending"
+        operation: "greater_than"
+        tier_values:
+          - tier: "Silver"
+            value: 1000
+          - tier: "Gold"
+            value: 5000
+          - tier: "Platinum"
+            value: 10000
+    actions:
+      - action_type: "upgrade_tier"

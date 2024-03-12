@@ -3,6 +3,7 @@ loyalty_rules:
     description: "Upgrade membership tier based on annual spending."
     conditions:
       - attribute: "annual_spending"
+        entity: "customer"
         operation: "greater_than"
         tier_values:
           - tier: "Silver"

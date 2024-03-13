@@ -9,3 +9,5 @@ class Action {
     throw new Error("Must implement")
   }
 }
+
+export default Action

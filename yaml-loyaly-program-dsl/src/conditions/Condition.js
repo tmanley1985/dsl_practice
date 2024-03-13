@@ -4,7 +4,7 @@ class Condition {
   constructor(attribute, operation, values) {
     this.attribute = attribute
     this.operation = operation
-    this.value = value
+    this.values = values
   }
 
   evaluate(customerData) {

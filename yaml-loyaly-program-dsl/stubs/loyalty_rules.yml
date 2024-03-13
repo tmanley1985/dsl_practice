@@ -1,16 +1,24 @@
 loyalty_rules:
-  - rule_name: "Dynamic Tier Upgrade for Spending"
+  - name: "Dynamic Tier Upgrade for Spending"
     description: "Upgrade membership tier based on annual spending."
     conditions:
       - attribute: "annual_spending"
         entity: "customer"
+        # Should this be greater than or equal to? Do we even need this?
+        # Would this condition really just need to see if the current
+        # customers tier doesn't match those below?
         operation: "greater_than"
-        tier_values:
-          - tier: "Silver"
+        # How can this be generic? Not every condition will have tier_values.
+        # Is there a tier below Silver? This is a domain question but it's possible
+        # they don't even have a tier until they're bumped into one.
+        values:
+          - name: "Silver"
             value: 1000
-          - tier: "Gold"
+          - name: "Gold"
             value: 5000
-          - tier: "Platinum"
+          - name: "Platinum"
             value: 10000
     actions:
+      # I suppose that this action would have to actually upgrade the tier if
+      # the condition passes but there will be some logic that's duplicated.
       - action_type: "upgrade_tier"

@@ -1,13 +1,23 @@
+import Action from "../actions/Action.js"
+import Condition from "../conditions/Condition.js"
+
 class Rule {
   constructor(name, conditions, actions) {
     this.name = name
     this.conditions = conditions.map(
-      cond => new Condition(cond.attribute, cond.operation, cond.value)
+      condition =>
+        new Condition(
+          condition.attribute,
+          condition.operation,
+          condition.values
+        )
     )
-    this.actions = actions.map(act => new Action(act.action_type, act))
+    this.actions = actions.map(action => new Action(action.action_type, action))
   }
 
   // Evaluate and execute the rule against a set of customer data
+  // Question: Mutation probably shouldn't happen here except to tinker at first
+  // because we may not want one rule to interfere with another?
   apply(customerData) {
     if (this.conditions.every(cond => cond.evaluate(customerData))) {
       // TODO: Should I implement a command bus or use an event based system here instead?

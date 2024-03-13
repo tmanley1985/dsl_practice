@@ -1,5 +1,6 @@
 import fs from "fs"
 import YAML from "yaml"
+import Rule from "./src/rules/Rule.js"
 
 const file = fs.readFileSync("./stubs/loyalty_rules.yml", "utf8")
 
@@ -16,4 +17,29 @@ const customerData = {
   ],
 }
 
-console.log(parsed)
+class RuleEngine {
+  constructor() {
+    this.rules = [] // This will hold Rule objects
+  }
+
+  addRule(rule) {
+    this.rules.push(rule)
+  }
+}
+
+const buildProgram = parsedYaml => {
+  const ruleEngine = new RuleEngine()
+
+  for (const rule of parsedYaml.loyalty_rules) {
+    console.log(rule)
+    ruleEngine.addRule(new Rule(rule.name, rule.conditions, rule.actions))
+  }
+}
+
+class Interpreter {
+  static interpret(program, customer) {
+    console.log(program)
+  }
+}
+
+Interpreter.interpret(buildProgram(parsed), customerData)

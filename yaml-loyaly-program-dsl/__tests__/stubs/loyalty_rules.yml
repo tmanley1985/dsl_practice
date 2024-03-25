@@ -1,0 +1,19 @@
+loyalty_rules:
+  - name: "Seasonal Double Points"
+    description: "Double points for all purchases in December."
+    # should these things be on the conditions themselves?
+
+    conditions:
+      - type: date_range
+        operation: within
+        entity: customer
+        attribute: spend
+        parameters: { start: "2023-12-01", end: "2023-12-31" }
+    actions:
+      # If it's the case that the current checkout passes the above rules
+      # then double the customer's points for orders processed today.
+      # What if they checkout multiple times though? We only want orders
+      # for the current checkout request. We wouldn't want to double/triple
+      # points.
+      - type: adjust_points
+        parameters: { multiplier: 2 }

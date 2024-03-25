@@ -12,4 +12,4 @@ class Condition {
   }
 }
 
-export default Condition
+module.exports = Condition

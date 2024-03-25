@@ -10,4 +10,4 @@ class Action {
   }
 }
 
-export default Action
+module.exports = Action

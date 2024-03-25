@@ -1,5 +1,5 @@
-import Action from "../actions/Action.js"
-import Condition from "../conditions/Condition.js"
+const Action = require("../actions/Action.js")
+const Condition = require("../conditions/Condition.js")
 
 class Rule {
   constructor(name, conditions, actions) {
@@ -35,4 +35,4 @@ class Rule {
   }
 }
 
-export default Rule
+module.exports = Rule

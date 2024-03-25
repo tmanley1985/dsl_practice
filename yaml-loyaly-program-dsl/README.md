@@ -10,7 +10,7 @@ This is my attempt to create a basic dsl for a domain expert to use that would g
 
 I'm not sure if I'll get to all of these but it's nice to explore the possibilities. At the very least I'd like to understand the landscape of language when it comes to these types of problems.
 
-- Upgrading the customer's loyalty tier based on annual spending
+- Upgrading the customer's loyalty points based on annual spending
 - Validating the dsl: looking for syntax errors, actions that don't exist, etc.
 - Writing an interpreter that will apply the rules and execute the actions
 - Having certain rules depend on one another

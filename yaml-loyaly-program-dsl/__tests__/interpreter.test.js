@@ -4,7 +4,7 @@ const Interpreter = require("../src/Interpreter.js")
 const RuleEngine = require("../src/RuleEngine.js")
 
 test("it should update a customers points during checkout", () => {
-  const file = fs.readFileSync("./stubs/loyalty_rules.yml", "utf8")
+  const file = fs.readFileSync("__tests__/stubs/loyalty_rules.yml", "utf8")
 
   const parsed = YAML.parse(file)
 

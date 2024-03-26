@@ -26,6 +26,10 @@ test("it should update a customers points if checking out within a valid date ra
     customer,
   }
 
+  // Mock Date.now() to return December 15, 2023 for this specific test
+  const testDate = new Date("2023-12-15T00:00:00Z").getTime()
+  jest.spyOn(Date, "now").mockImplementation(() => testDate)
+
   Interpreter.interpret(RuleEngine.fromParsedYaml(parsed), checkoutRequest)
 
   // We're assuming that each dollar spent is equivalent to one point.
@@ -34,4 +38,7 @@ test("it should update a customers points if checking out within a valid date ra
   // on now, he checked out within a period defined by the DSL as a double points period.
   // So those 100 points turns to 200, and you add that to the original amount and get 300.
   expect(customer.points).toBe(300)
+
+  // Restore the original Date.now() function after this test
+  jest.restoreAllMocks()
 })

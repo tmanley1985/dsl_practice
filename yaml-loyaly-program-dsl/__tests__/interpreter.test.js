@@ -3,7 +3,7 @@ const YAML = require("yaml")
 const Interpreter = require("../src/Interpreter.js")
 const RuleEngine = require("../src/RuleEngine.js")
 
-test("it should update a customers points during checkout", () => {
+test("it should update a customers points if checking out within a valid date range", () => {
   const file = fs.readFileSync("__tests__/stubs/loyalty_rules.yml", "utf8")
 
   const parsed = YAML.parse(file)
@@ -28,5 +28,10 @@ test("it should update a customers points during checkout", () => {
 
   Interpreter.interpret(RuleEngine.fromParsedYaml(parsed), checkoutRequest)
 
-  expect(true).toBe(true)
+  // We're assuming that each dollar spent is equivalent to one point.
+  // So the customer starts with 100 points from previous orders
+  // he checks out for 100 bucks which SHOULD be another 100 points but hold
+  // on now, he checked out within a period defined by the DSL as a double points period.
+  // So those 100 points turns to 200, and you add that to the original amount and get 300.
+  expect(customer.points).toBe(300)
 })

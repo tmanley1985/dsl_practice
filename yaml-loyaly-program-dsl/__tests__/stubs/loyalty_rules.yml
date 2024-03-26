@@ -5,9 +5,9 @@ loyalty_rules:
 
     conditions:
       - type: date_range
-        operation: within
-        entity: customer
-        attribute: spend
+        operation: within_inclusive
+        entity: transaction # this just tells the condition that we aren't looking at a particular field.
+        attribute: current_date
         parameters: { start: "2023-12-01", end: "2023-12-31" }
     actions:
       # If it's the case that the current checkout passes the above rules

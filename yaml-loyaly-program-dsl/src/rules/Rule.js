@@ -1,24 +1,29 @@
 const Action = require("../actions/Action.js")
-const Condition = require("../conditions/Condition.js")
+const ActionFactory = require("../actions/ActionFactory.js")
+const ConditionFactory = require("../conditions/ConditionFactory.js")
 
 class Rule {
   constructor(name, conditions, actions) {
     this.name = name
-    this.conditions = conditions.map(
-      condition =>
-        new Condition(
-          condition.attribute,
-          condition.operation,
-          condition.values
-        )
+    this.conditions = conditions.map(condition =>
+      ConditionFactory.make(
+        condition.type,
+        condition.attribute,
+        condition.entity,
+        condition.operation,
+        condition.parameters
+      )
     )
-    this.actions = actions.map(action => new Action(action.action_type, action))
+    this.actions = actions.map(action =>
+      // TODO: Maybe it makes sense to just pass the entire context object in here?
+      ActionFactory.make(action.type, action.parameters)
+    )
   }
 
   // Evaluate and execute the rule against a set of customer data
   // Question: Mutation probably shouldn't happen here except to tinker at first
   // because we may not want one rule to interfere with another?
-  apply(customerData) {
+  interpret(customerData) {
     if (this.conditions.every(cond => cond.evaluate(customerData))) {
       // TODO: Should I implement a command bus or use an event based system here instead?
       // It may be nice to return a list of commands and make this lazy. This would improve testing.

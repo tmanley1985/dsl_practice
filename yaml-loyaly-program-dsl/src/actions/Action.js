@@ -5,7 +5,7 @@ class Action {
   }
 
   // Execute this action for the given customer data
-  execute(customerData) {
+  interpret(customerData) {
     throw new Error("Must implement")
   }
 }

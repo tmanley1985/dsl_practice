@@ -5,7 +5,7 @@ class AdjustPoints extends Action {
     this.parameters = parameters
   }
 
-  execute(checkout) {
+  interpret(checkout) {
     const totalPointsForToday = this._getCustomerPointsForToday(
       checkout.customer.cart
     )

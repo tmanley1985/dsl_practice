@@ -1,10 +1,6 @@
-import Action from "./Action"
+const Action = require("./Action.js")
 
 class AdjustPoints extends Action {
-  constructor(parameters) {
-    this.parameters = parameters
-  }
-
   interpret(checkout) {
     const totalPointsForToday = this._getCustomerPointsForToday(
       checkout.customer.cart

@@ -23,11 +23,11 @@ class Rule {
   // Evaluate and execute the rule against a set of customer data
   // Question: Mutation probably shouldn't happen here except to tinker at first
   // because we may not want one rule to interfere with another?
-  interpret(customerData) {
-    if (this.conditions.every(cond => cond.evaluate(customerData))) {
+  interpret(checkout) {
+    if (this.conditions.every(condition => condition.interpret(checkout))) {
       // TODO: Should I implement a command bus or use an event based system here instead?
       // It may be nice to return a list of commands and make this lazy. This would improve testing.
-      this.actions.forEach(act => act.execute(customerData))
+      this.actions.forEach(action => action.interpret(checkout))
       return true // Indicates the rule was applied
     }
 

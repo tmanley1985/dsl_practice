@@ -18,6 +18,12 @@ class RuleEngine {
   addRule(rule) {
     this.rules.push(rule)
   }
+
+  run(checkout) {
+    for (const rule of this.rules) {
+      rule.interpret(checkout)
+    }
+  }
 }
 
 module.exports = RuleEngine

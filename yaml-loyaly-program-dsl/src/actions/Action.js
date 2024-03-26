@@ -1,7 +1,6 @@
 class Action {
-  constructor(type, details) {
-    this.type = type
-    this.details = details
+  constructor(parameters) {
+    this.parameters = parameters
   }
 
   // Execute this action for the given customer data

@@ -8,7 +8,7 @@ loyalty_rules:
         operation: within_inclusive
         entity: transaction # this just tells the condition that we aren't looking at a particular field.
         attribute: current_date
-        parameters: { start: "2023-12-01", end: "2023-12-31" }
+        parameters: { start: "2024-01-01", end: "2024-12-31" }
     actions:
       # If it's the case that the current checkout passes the above rules
       # then double the customer's points for orders processed today.

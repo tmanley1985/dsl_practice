@@ -13,7 +13,7 @@ class DateRangeCondition extends Condition {
   withinInclusive(date) {
     const startDate = new Date(this.parameters.start)
     const endDate = new Date(this.parameters.end)
-    return dateToCheck >= startDate && dateToCheck <= endDate
+    return date >= startDate && date <= endDate
   }
 }
 

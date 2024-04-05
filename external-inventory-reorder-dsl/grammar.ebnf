@@ -6,15 +6,19 @@ Condition ::= 'StockLevel' ComparisonOperator 'MinStockLevel'
 
 ComparisonOperator ::= '<' | '>' | '<=' | '>=' | '=='
 
-QuantityExpression ::= NumericExpression TimeFrame 'sales velocity' ArithmeticOperator Percentage
+QuantityExpression ::= NumericExpression VelocityMetric ArithmeticOperator Percentage
 
-TimeFrame ::= 'weeks' | 'months'
+VelocityMetric ::= SalesVelocity | RestockingVelocity | DemandVelocity
 
-NumericExpression ::= NumericLiteral | '(' NumericExpression ')'
+SalesVelocity ::= 'sales velocity'
+RestockingVelocity ::= 'restocking velocity'
+DemandVelocity ::= 'demand velocity'
 
 ArithmeticOperator ::= '+' | '-' | '*' | '/'
 
 Percentage ::= NumericLiteral '%'
+
+NumericExpression ::= NumericLiteral | '(' NumericExpression ')'
 
 NumericLiteral ::= Digit+
 

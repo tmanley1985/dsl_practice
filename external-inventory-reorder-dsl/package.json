@@ -1,0 +1,18 @@
+{
+  "name": "external-inventory-reorder-dsl",
+  "version": "1.0.0",
+  "description": "This is an external dsl for a fictional inventory reordering rules system.",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {},
+  "jest": {
+    "verbose": true
+  },
+  "devDependencies": {
+    "jest": "^29.7.0"
+  }
+}

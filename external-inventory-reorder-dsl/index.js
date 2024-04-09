@@ -2,7 +2,7 @@ const tokenTypes = [
   {
     type: "KEYWORD",
     pattern:
-      /^(ReorderRule|for:|When:|StockLevel|MinStockLevel|OrderQuantity:)/,
+      /^(ReorderRule for:|When:|StockLevel|MinStockLevel|OrderQuantity:)/,
   },
   { type: "IDENTIFIER", pattern: /^SKU\s[0-9]+/ },
   { type: "NUMERIC_LITERAL", pattern: /^[0-9]+(%?)/ },
@@ -55,6 +55,9 @@ function lexer(inputText) {
       throw new Error(`Unexpected token: ${inputText}`)
     }
   }
+
+  // If there are no more tokens to parse, we've reached the end of the file.
+  tokens.push({ type: "EOF", value: "<EOF>" })
 
   return tokens
 }

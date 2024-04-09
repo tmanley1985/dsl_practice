@@ -21,11 +21,11 @@ class SKUNode extends ASTNode {
 }
 
 class ConditionNode extends ASTNode {
-  constructor(stockLevel, comparisonOperator, minStockLevel) {
+  constructor(left, comparisonOperator, right) {
     super("Condition")
-    this.stockLevel = stockLevel
+    this.left = left
     this.comparisonOperator = comparisonOperator
-    this.minStockLevel = minStockLevel
+    this.right = right
   }
 }
 

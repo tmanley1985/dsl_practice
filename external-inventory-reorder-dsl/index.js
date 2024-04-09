@@ -1,10 +1,14 @@
+const parse = require("./src/Parser")
+
 const tokenTypes = [
   {
     type: "KEYWORD",
     pattern:
       /^(ReorderRule for:|When:|StockLevel|MinStockLevel|OrderQuantity:)/,
   },
-  { type: "IDENTIFIER", pattern: /^SKU\s[0-9]+/ },
+  // Because this dsl is really limited, I do not need an identifier here.
+  // Maybe for my next dsl I'll add something more generic.
+  { type: "SKU", pattern: /^SKU\s[0-9]+/ },
   { type: "NUMERIC_LITERAL", pattern: /^[0-9]+(%?)/ },
   {
     type: "VELOCITY_METRIC",
@@ -71,4 +75,7 @@ Description: Ignored content - Some long description that may be a lot of text a
 `
 
 const tokens = lexer(inputText)
-console.log(tokens)
+
+const ast = parse(tokens)
+
+console.log(ast)

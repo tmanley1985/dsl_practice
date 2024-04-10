@@ -1,4 +1,4 @@
-const parse = require("./src/Parser")
+const Parser = require("./src/Parser")
 const lexer = require("./src/Lexer")
 
 const inputText = `
@@ -11,6 +11,6 @@ Description: Ignored content - Some long description that may be a lot of text a
 
 const tokens = lexer(inputText)
 
-const ast = parse(tokens)
+const ast = new Parser(tokens).parse()
 
 console.log(ast)

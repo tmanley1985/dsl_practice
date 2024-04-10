@@ -9,30 +9,38 @@ const ArithmeticOperatorNode = require("./nodes/ArithmeticOperatorNode")
 const PercentageNode = require("./nodes/PercentageNode")
 const NumericExpressionNode = require("./nodes/NumericExpressionNode")
 
-// Parser implementation
-function parse(tokens) {
-  let currentTokenIndex = 0
+class Parser {
+  constructor(tokens) {
+    this.currentTokenIndex = 0
+    this.tokens = tokens
+  }
 
-  console.log(tokens)
+  parse() {
+    const rules = []
+    while (this.#peek()["type"] !== "EOF") {
+      const rule = this.#parseReorderRule()
+      rules.push(rule)
+    }
+    return rules
+  }
 
-  function nextToken() {
-    console.log("GOT IN NEXT TOKEN")
-    if (currentTokenIndex < tokens.length) {
-      console.log(tokens[currentTokenIndex])
-      return tokens[currentTokenIndex++]
+  #nextToken() {
+    if (this.currentTokenIndex < this.tokens.length) {
+      // We get the token and also advance.
+      return this.tokens[this.currentTokenIndex++]
     }
     return { type: "EOF", value: "<EOF>" }
   }
 
-  function peek() {
-    if (currentTokenIndex < tokens.length) {
-      return tokens[currentTokenIndex]
+  #peek() {
+    if (this.currentTokenIndex < this.tokens.length) {
+      return this.tokens[this.currentTokenIndex]
     }
     return { type: "EOF", value: "<EOF>" }
   }
 
-  function consume(expectedType) {
-    const { type, value } = nextToken()
+  #consume(expectedType) {
+    const { type, value } = this.#nextToken()
 
     // If you're expecting a certain type and the next token isn't that
     // then of course you need to error. For example for this input string:
@@ -46,20 +54,20 @@ function parse(tokens) {
     return value
   }
 
-  function parseReorderRule() {
+  #parseReorderRule() {
     // Notice how we're simply consuming the reorder rule and moving on?
     // We need to get everything after this, but we don't care about this keyword.
-    consume("KEYWORD", "ReorderRule for:")
-    const sku = parseSKU()
-    consume("KEYWORD", "When:")
-    const condition = parseCondition()
-    consume("KEYWORD", "OrderQuantity:")
-    const quantityExpression = parseQuantityExpression()
+    this.#consume("KEYWORD", "ReorderRule for:")
+    const sku = this.#parseSKU()
+    this.#consume("KEYWORD", "When:")
+    const condition = this.#parseCondition()
+    this.#consume("KEYWORD", "OrderQuantity:")
+    const quantityExpression = this.#parseQuantityExpression()
     return new ReorderRuleNode(sku, condition, quantityExpression)
   }
 
-  function parseSKU() {
-    const skuToken = consume("SKU")
+  #parseSKU() {
+    const skuToken = this.#consume("SKU")
     // Assuming the pattern for the IDENTIFIER tokens is 'SKU' followed by one or more digits.
     // Split the token's value based on space, expecting "SKU [number]"
     const parts = skuToken.split(" ")
@@ -70,25 +78,25 @@ function parse(tokens) {
     return new SKUNode(parts[1])
   }
 
-  function parseCondition() {
+  #parseCondition() {
     // TODO: Possibly I need to look at the left and right as expressions
     // that need to be evaluated in the future.
-    const left = consume("KEYWORD") // example StockLevel
-    const comparisonOperator = parseComparisonOperator()
-    const right = consume("KEYWORD") // example MinStockLevel
+    const left = this.#consume("KEYWORD") // example StockLevel
+    const comparisonOperator = this.#parseComparisonOperator()
+    const right = this.#consume("KEYWORD") // example MinStockLevel
     return new ConditionNode(left, comparisonOperator, right)
   }
 
-  function parseComparisonOperator() {
-    const operator = consume("COMPARISON_OPERATOR")
+  #parseComparisonOperator() {
+    const operator = this.#consume("COMPARISON_OPERATOR")
     return new ComparisonOperatorNode(operator)
   }
 
-  function parseQuantityExpression() {
-    const numericExpression = parseNumericExpression()
-    const velocityMetric = parseVelocityMetric()
-    const arithmeticOperator = parseArithmeticOperator()
-    const percentage = parsePercentage()
+  #parseQuantityExpression() {
+    const numericExpression = this.#parseNumericExpression()
+    const velocityMetric = this.#parseVelocityMetric()
+    const arithmeticOperator = this.#parseArithmeticOperator()
+    const percentage = this.#parsePercentage()
     return new QuantityExpressionNode(
       numericExpression,
       velocityMetric,
@@ -97,46 +105,28 @@ function parse(tokens) {
     )
   }
 
-  function parseVelocityMetric() {
-    const metric = consume("VELOCITY_METRIC")
+  #parseVelocityMetric() {
+    const metric = this.#consume("VELOCITY_METRIC")
     return new VelocityMetricNode(metric)
   }
 
-  function parseArithmeticOperator() {
-    const operator = consume("ARITHMETIC_OPERATOR")
+  #parseArithmeticOperator() {
+    const operator = this.#consume("ARITHMETIC_OPERATOR")
     return new ArithmeticOperatorNode(operator)
   }
 
-  function parsePercentage() {
-    const value = consume("NUMERIC_LITERAL")
+  #parsePercentage() {
+    const value = this.#consume("NUMERIC_LITERAL")
     if (!value.endsWith("%")) {
       throw new Error("Expected percentage.")
     }
     return new PercentageNode(value)
   }
 
-  function parseNumericExpression() {
-    const value = consume("NUMERIC_LITERAL")
+  #parseNumericExpression() {
+    const value = this.#consume("NUMERIC_LITERAL")
     return new NumericExpressionNode(value)
   }
-
-  // Assuming multiple ReorderRules can be defined in a single file
-  function parseFile() {
-    const rules = []
-    while (peek()["type"] !== "EOF") {
-      const rule = parseReorderRule()
-      rules.push(rule)
-    }
-    return rules
-  }
-
-  return parseFile()
 }
 
-// Example usage:
-// Assume `tokens` is an array of tokens, where each token is a [type, value] pair,
-// like [['ReorderRule for', ''], ['SKU', '123'], ...];
-// const ast = parse(tokens);
-// console.log(ast);
-
-module.exports = parse
+module.exports = Parser

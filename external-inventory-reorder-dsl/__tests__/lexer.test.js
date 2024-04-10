@@ -29,3 +29,5 @@ test("it should correctly lex the dsl", () => {
 
   expect(tokens).toEqual(expectedTokens)
 })
+
+test("it should parse multiple rules in the same file", () => {})

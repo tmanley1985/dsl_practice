@@ -1,83 +1,13 @@
-class ASTNode {
-  constructor(type) {
-    this.type = type
-  }
-}
-
-class ReorderRuleNode extends ASTNode {
-  constructor(sku, condition, quantityExpression) {
-    super("ReorderRule")
-    this.sku = sku
-    this.condition = condition
-    this.quantityExpression = quantityExpression
-  }
-}
-
-class SKUNode extends ASTNode {
-  constructor(value) {
-    super("SKU")
-    this.value = value
-  }
-}
-
-class ConditionNode extends ASTNode {
-  constructor(left, comparisonOperator, right) {
-    super("Condition")
-    this.left = left
-    this.comparisonOperator = comparisonOperator
-    this.right = right
-  }
-}
-
-class ComparisonOperatorNode extends ASTNode {
-  constructor(operator) {
-    super("ComparisonOperator")
-    this.operator = operator
-  }
-}
-
-class QuantityExpressionNode extends ASTNode {
-  constructor(
-    numericExpression,
-    velocityMetric,
-    arithmeticOperator,
-    percentage
-  ) {
-    super("QuantityExpression")
-    this.numericExpression = numericExpression
-    this.velocityMetric = velocityMetric
-    this.arithmeticOperator = arithmeticOperator
-    this.percentage = percentage
-  }
-}
-
-class VelocityMetricNode extends ASTNode {
-  constructor(metric) {
-    super("VelocityMetric")
-    this.metric = metric
-  }
-}
-
-class ArithmeticOperatorNode extends ASTNode {
-  constructor(operator) {
-    super("ArithmeticOperator")
-    this.operator = operator
-  }
-}
-
-class PercentageNode extends ASTNode {
-  constructor(value) {
-    super("Percentage")
-    this.value = value
-  }
-}
-
-class NumericExpressionNode extends ASTNode {
-  constructor(value) {
-    super("NumericExpression")
-    this.value = value
-  }
-}
+const ASTNode = require("./nodes/ASTNode")
+const ReorderRuleNode = require("./nodes/ReorderRuleNode")
+const SKUNode = require("./nodes/SKUNode")
+const ConditionNode = require("./nodes/ConditionNode")
+const ComparisonOperatorNode = require("./nodes/ComparisonOperatorNode")
+const QuantityExpressionNode = require("./nodes/QuantityExpressionNode")
+const VelocityMetricNode = require("./nodes/VelocityMetricNode")
+const ArithmeticOperatorNode = require("./nodes/ArithmeticOperatorNode")
+const PercentageNode = require("./nodes/PercentageNode")
+const NumericExpressionNode = require("./nodes/NumericExpressionNode")
 
 // Parser implementation
 function parse(tokens) {

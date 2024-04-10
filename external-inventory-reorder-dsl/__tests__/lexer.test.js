@@ -1,3 +1,4 @@
+const fs = require("fs")
 const lexer = require("../src/Lexer")
 
 test("it should correctly lex the dsl", () => {

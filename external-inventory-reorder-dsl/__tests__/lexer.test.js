@@ -1,5 +1,5 @@
 const fs = require("fs")
-const lexer = require("../src/Lexer")
+const Lexer = require("../src/Lexer")
 
 test("it should correctly lex the dsl", () => {
   const inputText = `
@@ -25,7 +25,7 @@ test("it should correctly lex the dsl", () => {
     { type: "EOF", value: "<EOF>" },
   ]
 
-  const tokens = lexer(inputText)
+  const tokens = new Lexer(inputText).lex()
 
   expect(tokens).toEqual(expectedTokens)
 })

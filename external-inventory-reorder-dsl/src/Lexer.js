@@ -19,49 +19,55 @@ const tokenTypes = [
   { type: "WHITESPACE", pattern: /^\s+/ },
 ]
 
-function lexer(inputText) {
-  let tokens = []
-  let match = null
-
-  while (inputText.length > 0) {
-    let matched = false
-
-    // Check if the current segment starts with "Description:"
-    if (/^Description:/.test(inputText)) {
-      // Find the next newline character to skip the description content
-      const nextNewline = inputText.indexOf("\n")
-      if (nextNewline === -1) {
-        // If there's no newline, then we're at the end of the file
-        break
-      } else {
-        // Skip over the description content
-        inputText = inputText.substring(nextNewline)
-        continue // Skip the rest of the loop and continue with the next line
-      }
-    }
-
-    tokenTypes.forEach(tokenType => {
-      if (!matched && (match = inputText.match(tokenType.pattern))) {
-        matched = true
-        if (tokenType.type !== "WHITESPACE") {
-          tokens.push({
-            type: tokenType.type,
-            value: match[0].trim(),
-          })
-        }
-        inputText = inputText.substring(match[0].length)
-      }
-    })
-
-    if (!matched) {
-      throw new Error(`Unexpected token: ${inputText}`)
-    }
+class Lexer {
+  constructor(inputText) {
+    this.inputText = inputText
   }
 
-  // If there are no more tokens to parse, we've reached the end of the file.
-  tokens.push({ type: "EOF", value: "<EOF>" })
+  lex() {
+    let tokens = []
+    let match = null
 
-  return tokens
+    while (this.inputText.length > 0) {
+      let matched = false
+
+      // Check if the current segment starts with "Description:"
+      if (/^Description:/.test(this.inputText)) {
+        // Find the next newline character to skip the description content
+        const nextNewline = this.inputText.indexOf("\n")
+        if (nextNewline === -1) {
+          // If there's no newline, then we're at the end of the file
+          break
+        } else {
+          // Skip over the description content
+          this.inputText = this.inputText.substring(nextNewline)
+          continue // Skip the rest of the loop and continue with the next line
+        }
+      }
+
+      tokenTypes.forEach(tokenType => {
+        if (!matched && (match = this.inputText.match(tokenType.pattern))) {
+          matched = true
+          if (tokenType.type !== "WHITESPACE") {
+            tokens.push({
+              type: tokenType.type,
+              value: match[0].trim(),
+            })
+          }
+          this.inputText = this.inputText.substring(match[0].length)
+        }
+      })
+
+      if (!matched) {
+        throw new Error(`Unexpected token: ${this.inputText}`)
+      }
+    }
+
+    // If there are no more tokens to parse, we've reached the end of the file.
+    tokens.push({ type: "EOF", value: "<EOF>" })
+
+    return tokens
+  }
 }
 
-module.exports = lexer
+module.exports = Lexer

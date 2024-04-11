@@ -1,0 +1,25 @@
+ReorderRule ::= 'ReorderRule for' SKU 'When' Condition 'OrderQuantity:' QuantityExpression
+
+SKU ::= 'SKU' NumericLiteral
+
+Condition ::= 'StockLevel' ComparisonOperator 'MinStockLevel'
+
+ComparisonOperator ::= '<' | '>' | '<=' | '>=' | '=='
+
+QuantityExpression ::= NumericExpression VelocityMetric ArithmeticOperator Percentage
+
+VelocityMetric ::= SalesVelocity | RestockingVelocity | DemandVelocity
+
+SalesVelocity ::= 'sales velocity'
+RestockingVelocity ::= 'restocking velocity'
+DemandVelocity ::= 'demand velocity'
+
+ArithmeticOperator ::= '+' | '-' | '*' | '/'
+
+Percentage ::= NumericLiteral '%'
+
+NumericExpression ::= NumericLiteral | '(' NumericExpression ')'
+
+NumericLiteral ::= Digit+
+
+Digit ::= '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9'
